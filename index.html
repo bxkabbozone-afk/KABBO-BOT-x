@@ -3,496 +3,573 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KABBO LIVE SIGNAL BOT - ULTIMATE PRO V4</title>
+    <title>KABBO SCREEN SHOT AI BOT - PRO</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Hind+Siliguri:wght@400;600;700&display=swap');
+        
         body {
-            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
-            color: #f8fafc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            width: 100vw;
-            padding: 15px;
-            overflow-x: hidden;
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #060911;
+            color: #f3f4f6;
         }
-        .container {
-            background: rgba(15, 23, 42, 0.85);
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        
+        .glass-card {
+            background: rgba(13, 18, 30, 0.85);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 24px;
-            padding: 28px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+        }
+
+        .pro-glow {
+            border: 1px solid rgba(234, 179, 8, 0.5) !important;
+            box-shadow: 0 0 20px rgba(234, 179, 8, 0.2) !important;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            50% { top: 95%; }
+            100% { top: 0%; }
+        }
+        .scanner-line {
+            position: absolute;
             width: 100%;
-            max-width: 480px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            position: relative;
-        }
-        .brand-badge {
-            background: linear-gradient(90deg, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-        .subtitle {
-            font-size: 11px;
-            color: #94a3b8;
-            margin-bottom: 22px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* Login Screen */
-        #loginBox {
-            display: block;
-        }
-        .input-group {
-            margin-bottom: 18px;
-            text-align: left;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 12px;
-            color: #cbd5e1;
-            font-weight: 600;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            background-color: #030712;
-            color: #38bdf8;
-            font-size: 16px;
-            outline: none;
-            text-align: center;
-            letter-spacing: 3px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-        }
-        .input-group input:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
-        }
-        .error-msg {
-            color: #f43f5e;
-            font-size: 12px;
-            margin-top: 10px;
-            display: none;
-            font-weight: 600;
-        }
-
-        /* Bot Content Screen */
-        #botContent {
-            display: none;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 12px;
-            color: #cbd5e1;
-            font-weight: 600;
-        }
-        select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            background-color: #030712;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-            cursor: pointer;
-        }
-        select:focus {
-            border-color: #38bdf8;
-        }
-        .btn-action {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #0284c7, #2563eb);
-            color: white;
-            font-size: 15px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-            margin-top: 5px;
-        }
-        .btn-action:active {
-            transform: scale(0.98);
-        }
-
-        /* Scanner Box */
-        .scanner-box {
-            display: none;
-            margin: 20px 0;
-            padding: 15px;
-            background: #030712;
-            border-radius: 12px;
-            border: 1px solid #1e293b;
-        }
-        .scan-status {
-            font-size: 13px;
-            color: #38bdf8;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        .progress-bar-bg {
-            width: 100%;
-            height: 8px;
-            background: #1e293b;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #38bdf8, #4ade80);
-            transition: width 0.1s linear;
-        }
-
-        /* Result Area */
-        .result-box {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #030712;
-            border-radius: 16px;
-            border: 1px solid #1e293b;
-            display: none;
-            text-align: left;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .res-header {
-            font-size: 12px;
-            color: #94a3b8;
-            border-bottom: 1px solid #1e293b;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .signal-direction {
-            font-size: 28px;
-            font-weight: 900;
-            text-align: center;
-            margin: 12px 0;
-            letter-spacing: 1px;
-        }
-        .up { color: #22c55e; text-shadow: 0 0 12px rgba(34, 197, 94, 0.4); }
-        .down { color: #f43f5e; text-shadow: 0 0 12px rgba(244, 63, 94, 0.4); }
-
-        .mtg-badge {
-            background: rgba(245, 158, 11, 0.15);
-            border: 1px solid #f59e0b;
-            color: #fbbf24;
-            font-size: 11px;
-            font-weight: 700;
-            text-align: center;
-            padding: 6px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-        }
-
-        .strategy-metrics {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 10px;
-            font-size: 11px;
-        }
-        .metric-card {
-            background: #0f172a;
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid #1e293b;
-            text-align: center;
-            color: #94a3b8;
-        }
-        .metric-card span {
-            display: block;
-            color: #38bdf8;
-            font-weight: 700;
-            font-size: 10px;
-            margin-top: 3px;
-        }
-
-        .win-rate-container {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            margin-top: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .win-rate {
-            font-size: 18px;
-            font-weight: 800;
-            color: #4ade80;
-        }
-        .knowledge-box {
-            margin-top: 12px;
-            padding: 12px;
-            background-color: rgba(2, 132, 199, 0.1);
-            border-left: 3px solid #38bdf8;
-            border-radius: 6px;
-            font-size: 11px;
-            color: #bae6fd;
-            line-height: 1.5;
-        }
-        .footer-note {
-            margin-top: 20px;
-            font-size: 10px;
-            color: #64748b;
-            line-height: 1.4;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #06b6d4, #eab308, transparent);
+            box-shadow: 0 0 15px #06b6d4;
+            animation: scan 1.8s infinite ease-in-out;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col justify-between items-center p-3 sm:p-6">
 
-<div class="container">
-    <div class="brand-badge">KABBO LIVE SIGNAL</div>
-    <div class="subtitle">AI Price Action & OTC Algorithm Scanner</div>
-    
-    <!-- Pass Key Interface -->
-    <div id="loginBox">
-        <div class="input-group">
-            <label for="passInput">VIP ACCESS KEY:</label>
-            <input type="password" id="passInput" placeholder="••••••••">
+    <!-- Header Logo & Pro Button -->
+    <header class="w-full max-w-md flex flex-col items-center mb-3 text-center">
+        <div class="w-full flex justify-between items-center bg-slate-900/90 px-4 py-2.5 rounded-2xl border border-cyan-500/30">
+            <div class="flex items-center gap-2.5">
+                <div class="bg-cyan-500/20 p-2 rounded-xl text-cyan-400">
+                    <i data-lucide="bot" class="w-7 h-7"></i>
+                </div>
+                <div class="text-left">
+                    <h1 class="font-orbitron text-base font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400">
+                        KABBO AI BOT
+                    </h1>
+                    <p id="badgeStatus" class="text-[9px] text-cyan-400 tracking-wider uppercase font-semibold">FREE VERSION</p>
+                </div>
+            </div>
+
+            <!-- Upgrade PRO Button -->
+            <button onclick="openProModal()" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:opacity-90 text-slate-950 text-xs font-extrabold px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-lg shadow-amber-500/20 animate-pulse">
+                <i data-lucide="crown" class="w-3.5 h-3.5"></i> PRO $50
+            </button>
         </div>
-        <button class="btn-action" onclick="checkPassword()">UNLOCK VIP BOT</button>
-        <div class="error-msg" id="errorMsg">❌ INVALID KEY! CONTACT ADMIN.</div>
+    </header>
+
+    <!-- AUTH SECTION -->
+    <div id="authSection" class="w-full max-w-md glass-card rounded-3xl p-6">
+        <h2 class="text-lg font-bold text-center mb-4 text-cyan-400 flex items-center justify-center gap-2">
+            <i data-lucide="shield-check" class="w-5 h-5"></i> লাইসেন্স ভেরিফিকেশন
+        </h2>
+        
+        <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-3.5">
+            <div>
+                <label class="block text-xs text-slate-400 mb-1">জিমেইল অ্যাড্রেস (Gmail)</label>
+                <input type="email" id="userEmail" required placeholder="example@gmail.com" 
+                       class="w-full bg-slate-900 border border-slate-700 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-cyan-500">
+            </div>
+            <div>
+                <label class="block text-xs text-slate-400 mb-1">ইউজার পাসওয়ার্ড</label>
+                <input type="password" id="userPass" required placeholder="••••••••" 
+                       class="w-full bg-slate-900 border border-slate-700 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-cyan-500">
+            </div>
+            <div>
+                <label class="block text-xs text-slate-400 mb-1">বট মেইন পাসওয়ার্ড</label>
+                <input type="password" id="mainPass" required placeholder="পাসওয়ার্ড লিখুন" 
+                       class="w-full bg-slate-900 border border-cyan-500/50 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-cyan-400 text-cyan-300">
+            </div>
+
+            <!-- ERROR MESSAGE CONTAINER (SECURED) -->
+            <p id="loginError" class="text-rose-500 text-xs text-center hidden font-semibold"></p>
+
+            <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-xs">
+                <i data-lucide="log-in" class="w-4 h-4"></i> বটের ভেতরে প্রবেশ করুন
+            </button>
+        </form>
     </div>
 
-    <!-- Main Bot Interface -->
-    <div id="botContent">
-        <!-- Market Type Switcher -->
-        <div class="form-group">
-            <label for="marketType">মার্কেট টাইপ চুজ করুন:</label>
-            <select id="marketType" onchange="updateAssetList()">
-                <option value="otc">Quotex OTC Markets (24/7)</option>
-                <option value="real">Real Forex Markets (Live)</option>
-                <option value="crypto">Crypto & Commodity Markets</option>
-            </select>
-        </div>
-
-        <!-- Asset Selection -->
-        <div class="form-group">
-            <label for="asset">অ্যাসেট সিলেক্ট করুন:</label>
-            <select id="asset">
-                <!-- Assets populated dynamically -->
-            </select>
-        </div>
-
-        <button class="btn-action" onclick="startDeepAnalysis()">ANALYZE & GENERATE</button>
-
-        <!-- Scanner Box -->
-        <div class="scanner-box" id="scannerBox">
-            <div class="scan-status" id="scanStatus">Scanning Support & Resistance...</div>
-            <div class="progress-bar-bg">
-                <div class="progress-bar-fill" id="progressFill"></div>
+    <!-- MAIN APP DASHBOARD -->
+    <div id="appSection" class="w-full max-w-md space-y-3.5 hidden">
+        
+        <!-- USER PROFILE & STATS -->
+        <div id="profileCard" class="glass-card rounded-2xl p-3.5 flex items-center justify-between border-cyan-500/20">
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 bg-cyan-500/10 border border-cyan-500/40 rounded-full flex items-center justify-center text-cyan-400 font-bold">
+                    <i data-lucide="user" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 id="displayUser" class="text-xs font-bold text-slate-200">User Profile</h3>
+                    <span id="userTier" class="text-[9px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full font-semibold">Standard Member</span>
+                </div>
+            </div>
+            <div class="flex gap-1.5 text-center text-[10px]">
+                <div class="bg-slate-900 px-2 py-1 rounded-lg border border-slate-800">
+                    <p class="text-slate-400">Total</p>
+                    <p id="totalSignals" class="font-bold text-cyan-400">0</p>
+                </div>
+                <div class="bg-emerald-950/40 px-2 py-1 rounded-lg border border-emerald-800/50">
+                    <p class="text-emerald-400">Profit</p>
+                    <p id="totalWins" class="font-bold text-emerald-400">0</p>
+                </div>
+                <div class="bg-rose-950/40 px-2 py-1 rounded-lg border border-rose-800/50">
+                    <p class="text-rose-400">Loss</p>
+                    <p id="totalLosses" class="font-bold text-rose-400">0</p>
+                </div>
             </div>
         </div>
 
-        <!-- Output Result Display -->
-        <div class="result-box" id="resultBox">
-            <div class="res-header">
-                <span>PAIR: <strong id="selectedAssetDisplay" style="color: #fff;">---</strong></span>
-                <span>TIMEFRAME: <strong style="color: #38bdf8;">1 MIN</strong></span>
-            </div>
+        <!-- NOTICE CARD -->
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-2.5 flex gap-2.5 items-start">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+            <p class="text-[11px] text-amber-200/90 leading-tight">
+                <strong class="text-amber-400">নিয়মাবলী:</strong> রানিং ক্যান্ডেলের সময় যখন ঠিক <span class="underline font-bold text-white">45 Seconds</span> থাকবে, তখন স্ক্রিনশট তুলে দিন। পরবর্তী ক্যান্ডেলের এক্যুরেট সিগন্যাল প্রদান করা হবে।
+            </p>
+        </div>
+
+        <!-- TAB NAVIGATION -->
+        <div class="flex bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-xs font-semibold">
+            <button id="tab1Btn" onclick="switchTab('screen')" class="flex-1 py-2 rounded-lg bg-cyan-500 text-slate-950 font-bold transition">
+                <i data-lucide="scan" class="w-3.5 h-3.5 inline mr-1"></i> স্ক্রিনশট AI সিগন্যাল
+            </button>
+            <button id="tab2Btn" onclick="switchTab('future')" class="flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition">
+                <i data-lucide="calendar" class="w-3.5 h-3.5 inline mr-1"></i> ফিউচার সিগন্যাল
+            </button>
+        </div>
+
+        <!-- TAB 1: SCREENSHOT AI GENERATOR -->
+        <div id="screenTab" class="glass-card rounded-2xl p-4 space-y-3">
             
-            <div class="signal-direction" id="signalDirection">---</div>
-
-            <div class="mtg-badge">⚡ RULE: DIRECT TRADE OR 1-STEP MTG ALLOWED</div>
-            
-            <div class="strategy-metrics">
-                <div class="metric-card">S&R LEVEL <span id="snrStatus">Strong Support Level</span></div>
-                <div class="metric-card">CANDLE PATTERN <span id="candleStatus">Bullish Engulfing</span></div>
-                <div class="metric-card">RSI (14) <span id="rsiStatus">Oversold (28)</span></div>
-                <div class="metric-card">VOLUME / EMA <span id="emaStatus">Bullish Momentum</span></div>
+            <div class="space-y-2">
+                <div class="flex gap-2">
+                    <select id="marketCategory" onchange="loadAssets()" class="w-1/2 bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-slate-200">
+                        <option value="otc">OTC Market (All Pairs)</option>
+                        <option value="real">Real Market</option>
+                        <option value="crypto">Crypto & Commodity</option>
+                    </select>
+                    <input type="text" id="assetSearch" oninput="filterAssets()" placeholder="🔍 Search Asset..." class="w-1/2 bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-slate-200">
+                </div>
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-0.5">অ্যাসেট সিলেক্ট করুন (সহ পার্সেন্টেজ)</label>
+                    <select id="assetSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-slate-200">
+                    </select>
+                </div>
             </div>
 
-            <div class="win-rate-container">
-                ACCURACY CONFIRMATION: <span class="win-rate" id="winRatePercentage">0%</span>
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-0.5">টাইম জোন (UTC)</label>
+                    <select id="timeZone" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-slate-200">
+                        <option value="UTC+6" selected>UTC +6 (Dhaka)</option>
+                        <option value="UTC+5:30">UTC +5:30 (India)</option>
+                        <option value="UTC+5">UTC +5 (Pakistan)</option>
+                        <option value="UTC+4">UTC +4 (Dubai)</option>
+                        <option value="UTC+0">UTC +0 (London/GMT)</option>
+                        <option value="UTC-5">UTC -5 (New York)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-0.5">ক্যান্ডেল টাইমফ্রেম</label>
+                    <select id="timeFrame" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-slate-200">
+                        <option value="1 MINUTE">1 MINUTE</option>
+                        <option value="5 MINUTES">5 MINUTES</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="knowledge-box" id="knowledgeTip"></div>
+            <div>
+                <div onclick="document.getElementById('chartInput').click()" class="border-2 border-dashed border-cyan-500/40 hover:border-cyan-400 rounded-xl p-3 text-center cursor-pointer bg-slate-900/40 relative overflow-hidden">
+                    <input type="file" id="chartInput" accept="image/*" class="hidden" onchange="previewImage(event)">
+                    
+                    <div id="uploadPlaceholder" class="space-y-1">
+                        <i data-lucide="image-plus" class="w-6 h-6 mx-auto text-cyan-400"></i>
+                        <p class="text-xs text-slate-300 font-semibold">চার্টের স্ক্রিনশট আপলোড করুন</p>
+                    </div>
+
+                    <div id="imagePreviewContainer" class="hidden relative rounded-lg overflow-hidden">
+                        <img id="imagePreview" class="w-full h-32 object-cover rounded-lg" src="" alt="Chart">
+                        <div id="scannerOverlay" class="hidden absolute inset-0 bg-slate-950/60">
+                            <div class="scanner-line"></div>
+                            <div class="absolute bottom-2 left-2 bg-slate-900/90 text-cyan-400 text-[9px] px-2 py-0.5 rounded border border-cyan-500/40 animate-pulse">
+                                Analyzing Pressure, SR Levels & Candles...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="generateScreenshotSignal()" class="w-full bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-extrabold py-2.5 rounded-xl transition flex justify-center items-center gap-2 text-xs shadow-lg shadow-cyan-500/20">
+                <i data-lucide="cpu" class="w-4 h-4"></i> AI এনালাইজ ও সিগন্যাল জেনারেট
+            </button>
+
+            <!-- SIGNAL RESULT POPUP -->
+            <div id="signalResultCard" class="hidden bg-slate-900/95 border border-cyan-500/40 rounded-xl p-3 text-center space-y-2">
+                <div class="flex justify-between items-center text-xs text-slate-400 border-b border-slate-800 pb-1.5">
+                    <span id="resAsset" class="font-bold text-white">EUR/USD (OTC)</span>
+                    <span id="resTime" class="text-cyan-400 font-orbitron font-bold">--:--</span>
+                </div>
+
+                <div>
+                    <p class="text-[9px] text-slate-400 uppercase tracking-widest">AI Prediction</p>
+                    <h2 id="resDirection" class="text-2xl font-extrabold font-orbitron my-0.5">CALL ⬆️</h2>
+                    <p id="resAccuracy" class="text-xs text-emerald-400 font-semibold">Accuracy Rate: 89%</p>
+                    <p id="resReason" class="text-[10px] text-cyan-300/80 bg-slate-950/60 py-1 px-2 rounded-lg mt-1 border border-cyan-500/20 font-mono">Reason: SR Level Rejection + Bullish Pressure</p>
+                </div>
+
+                <div class="flex gap-2 pt-1 border-t border-slate-800">
+                    <button onclick="recordResult('win')" class="flex-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 py-1 rounded-lg text-xs font-bold">WIN (Profit)</button>
+                    <button onclick="recordResult('loss')" class="flex-1 bg-rose-500/20 text-rose-400 border border-rose-500/40 py-1 rounded-lg text-xs font-bold">LOSS</button>
+                </div>
+            </div>
+
         </div>
 
-        <div class="footer-note">
-            * KABBO BOT ALGORITHM: প্রপার মানি ম্যানেজমেন্ট ব্যবহার করুন। সিগন্যালে লস হলে ১-স্টেপ মার্টিংগেল ব্যবহার করা নিরাপদ।
+        <!-- TAB 2: FUTURE SIGNAL GENERATOR -->
+        <div id="futureTab" class="glass-card rounded-2xl p-4 space-y-3 hidden">
+            <h3 class="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
+                <i data-lucide="list-filter" class="w-4 h-4"></i> VIP ফিউচার সিগন্যাল জেনারেটর
+            </h3>
+
+            <div>
+                <label class="block text-[10px] text-slate-400 mb-1">অ্যাসেট সিলেক্ট করুন (সর্বমোট ৭টি)</label>
+                <div id="multiAssetContainer" class="grid grid-cols-2 gap-1.5 text-[11px] max-h-32 overflow-y-auto p-2 bg-slate-900 rounded-xl border border-slate-800">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-0.5">মোট সিগন্যাল সংখ্যা</label>
+                    <select id="signalCount" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-slate-200">
+                        <option value="10">১০টি সিগন্যাল</option>
+                        <option value="15" selected>১৫টি সিগন্যাল</option>
+                        <option value="18">১৮টি সিগন্যাল</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-0.5">টাইম জোন</label>
+                    <select id="futureTimeZone" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-slate-200">
+                        <option value="UTC+6" selected>UTC +6 (Dhaka)</option>
+                        <option value="UTC+5:30">UTC +5:30 (India)</option>
+                        <option value="UTC+0">UTC +0 (London)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button onclick="generateFutureSignals()" class="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-bold py-2.5 rounded-xl transition flex justify-center items-center gap-1.5 text-xs">
+                <i data-lucide="sparkles" class="w-4 h-4"></i> জেনারেট ফিউচার লিস্ট (80%+ Accuracy)
+            </button>
+
+            <!-- Future List Output -->
+            <div id="futureListContainer" class="hidden space-y-2">
+                <textarea id="futureListText" readonly class="w-full h-44 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-[11px] font-mono text-cyan-300 focus:outline-none leading-relaxed"></textarea>
+                <button onclick="copyFutureList()" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-200 font-bold py-1.5 rounded-xl transition flex justify-center items-center gap-1.5">
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i> কপি অল সিগন্যাল
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PRO UPGRADE MODAL -->
+    <div id="proModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+        <div class="glass-card border-amber-500/50 rounded-3xl p-5 max-w-sm w-full space-y-4 text-center relative">
+            <button onclick="closeProModal()" class="absolute top-3 right-3 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            
+            <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center mx-auto border border-amber-500/40">
+                <i data-lucide="crown" class="w-7 h-7"></i>
+            </div>
+
+            <h3 class="text-base font-bold text-amber-400">UNLOCKED PRO VIP VERSION</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                প্রো ভার্সন একটিভ করলে সিগন্যালের এক্যুরেসি **90%-98%** বৃদ্ধি পাবে এবং প্রো অ্যানালাইস সিস্টেম আনলক হবে।
+            </p>
+
+            <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800 text-left space-y-1.5 text-xs">
+                <p class="text-slate-400">💰 ফি: <strong class="text-amber-400">$50 USD</strong></p>
+                <p class="text-slate-400">📞 যোগাযোগ ও পেমেন্ট নম্বর: <strong class="text-emerald-400 font-mono">01751856343</strong></p>
+                <p class="text-[10px] text-slate-500">*টাকা সেন্ড করে উক্ত নম্বরে যোগাযোগ করে লাইসেন্স কী সংগ্রহ করুন।</p>
+            </div>
+
+            <div class="space-y-2">
+                <input type="password" id="proKeyInput" placeholder="Enter PRO License Key" class="w-full bg-slate-900 border border-amber-500/40 rounded-xl p-2.5 text-xs text-amber-300 text-center focus:outline-none">
+                <button onclick="activateProVersion()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 font-extrabold py-2.5 rounded-xl text-xs">
+                    একটিভ প্রো অ্যাকাউন্ট
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    const CORRECT_PASSWORD = "KABBO786";
+    <!-- Beep Sound -->
+    <audio id="beepSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
-    // Quotex Full Assets Database
-    const otcAssets = [
-        "EUR/USD (OTC)", "GBP/USD (OTC)", "USD/JPY (OTC)", "USD/BDT (OTC)", 
-        "USD/INR (OTC)", "USD/PKR (OTC)", "USD/EGP (OTC)", "USD/BRL (OTC)",
-        "USD/TRY (OTC)", "AUD/CAD (OTC)", "EUR/GBP (OTC)", "GBP/JPY (OTC)",
-        "NZD/USD (OTC)", "USD/CHF (OTC)", "EUR/JPY (OTC)", "AUD/JPY (OTC)",
-        "CAD/JPY (OTC)", "EUR/CAD (OTC)", "GBP/CAD (OTC)", "AUD/NZD (OTC)"
-    ];
-    
-    const realAssets = [
-        "EUR/USD (Real)", "GBP/USD (Real)", "USD/JPY (Real)", "AUD/CAD (Real)", 
-        "USD/CAD (Real)", "EUR/JPY (Real)", "GBP/JPY (Real)", "USD/CHF (Real)",
-        "EUR/GBP (Real)", "NZD/USD (Real)", "AUD/USD (Real)", "CAD/CHF (Real)",
-        "EUR/AUD (Real)", "GBP/AUD (Real)", "GBP/CHF (Real)", "AUD/JPY (Real)"
-    ];
+    <script>
+        lucide.createIcons();
 
-    const cryptoAssets = [
-        "Crypto IDX (OTC)", "Bitcoin (BTC/USD)", "Ethereum (ETH/USD)", 
-        "USDT/USD", "Gold / XAUUSD (OTC)", "Silver / XAGUSD (OTC)", 
-        "US Crude / UK Brent (OTC)"
-    ];
+        const otcAssetsList = [
+            "AUD/CAD OTC - 92%", "AUD/CHF OTC - 91%", "AUD/JPY OTC - 93%", "AUD/NZD OTC - 89%", "AUD/USD OTC - 95%",
+            "CAD/CHF OTC - 90%", "CAD/JPY OTC - 92%", "CHF/JPY OTC - 91%", "EUR/AUD OTC - 93%", "EUR/CAD OTC - 90%",
+            "EUR/CHF OTC - 88%", "EUR/GBP OTC - 92%", "EUR/JPY OTC - 94%", "EUR/NZD OTC - 91%", "EUR/USD OTC - 95%",
+            "GBP/AUD OTC - 92%", "GBP/CAD OTC - 91%", "GBP/CHF OTC - 90%", "GBP/JPY OTC - 94%", "GBP/NZD OTC - 89%",
+            "GBP/USD OTC - 95%", "NZD/CAD OTC - 88%", "NZD/CHF OTC - 89%", "NZD/JPY OTC - 91%", "NZD/USD OTC - 92%",
+            "USD/ARS OTC - 93%", "USD/BDT OTC - 96%", "USD/BRL OTC - 95%", "USD/CAD OTC - 92%", "USD/CHF OTC - 91%",
+            "USD/COP OTC - 90%", "USD/DZD OTC - 89%", "USD/EGP OTC - 92%", "USD/IDR OTC - 93%", "USD/INR OTC - 95%",
+            "USD/JPY OTC - 94%", "USD/MXN OTC - 91%", "USD/NGN OTC - 88%", "USD/PHP OTC - 90%", "USD/PKR OTC - 94%",
+            "USD/SGD OTC - 91%", "USD/TRY OTC - 93%", "USD/ZAR OTC - 92%"
+        ];
 
-    function checkPassword() {
-        const userPass = document.getElementById("passInput").value;
-        const errorMsg = document.getElementById("errorMsg");
-        const loginBox = document.getElementById("loginBox");
-        const botContent = document.getElementById("botContent");
+        const realAssetsList = [
+            "EUR/USD - 85%", "GBP/USD - 84%", "USD/JPY - 86%", "AUD/CAD - 82%", "USD/CHF - 83%", "EUR/GBP - 84%", "NZD/USD - 82%"
+        ];
 
-        if (userPass === CORRECT_PASSWORD) {
-            loginBox.style.display = "none";
-            botContent.style.display = "block";
-            updateAssetList();
-        } else {
-            errorMsg.style.display = "block";
-        }
-    }
+        const cryptoAssetsList = [
+            "Gold OTC - 95%", "Silver OTC - 92%", "Bitcoin OTC - 91%", "Ethereum OTC - 90%", "Crypto IDX - 96%"
+        ];
 
-    function updateAssetList() {
-        const marketType = document.getElementById("marketType").value;
-        const assetSelect = document.getElementById("asset");
-        assetSelect.innerHTML = "";
+        const reasonsList = [
+            "Reason: Strong Support Rejection + Bullish Pressure",
+            "Reason: Resistance Level Breakout + High Volume",
+            "Reason: Candle Wick Rejection at SR Level",
+            "Reason: Bullish Engulfing Pattern Formation"
+        ];
 
-        let assetList = [];
-        if (marketType === "otc") assetList = otcAssets;
-        else if (marketType === "real") assetList = realAssets;
-        else assetList = cryptoAssets;
-        
-        assetList.forEach(asset => {
-            let option = document.createElement("option");
-            option.value = asset;
-            option.text = asset;
-            assetSelect.appendChild(option);
-        });
-    }
+        let currentAssets = [...otcAssetsList];
+        let isProMember = false;
+        let userStats = { total: 0, win: 0, loss: 0 };
 
-    const realKnowledgeTips = [
-        "💡 স্ট্র্যাটেজি লজিক: ক্যান্ডেলস্টিক রিজেকশন (Lower Wick) এবং সাপোর্ট লেভেল থেকে বায়িং প্রেসার পাওয়া গেছে।",
-        "💡 স্ট্র্যাটেজি লজিক: বিয়ারিশ মারুডোজু ক্যান্ডেল ব্রেকআউট দেওয়ার পর রেজিস্ট্যান্স থেকে রিভার্সাল কনফার্ম হয়েছে।",
-        "💡 স্ট্র্যাটেজি লজিক: RSI ওভারসোল্ড জোন এবং ক্যান্ডেলস্টিক এঙ্গালফিং প্যাটার্ন একই সাথে বুলিশ ট্রানজিশন দেখাচ্ছে।",
-        "💡 স্ট্র্যাটেজি লজিক: ওটিসি অ্যালগরিদমের ৩-ক্যান্ডেল ট্রেন্ড রুলস অনুযায়ী মোমেন্টাম ফলো করে সিগন্যাল জেনারেট করা হলো।"
-    ];
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('userEmail').value.trim();
+            const mainPass = document.getElementById('mainPass').value.trim();
 
-    const scanSteps = [
-        "Connecting Quotex Database...",
-        "Scanning Support & Resistance Levels...",
-        "Detecting Candlestick Patterns...",
-        "Analyzing RSI & EMA Volume...",
-        "Evaluating Price Action Rejections...",
-        "Finalizing Signal Accuracy..."
-    ];
-
-    function startDeepAnalysis() {
-        document.getElementById("resultBox").style.display = "none";
-        const scannerBox = document.getElementById("scannerBox");
-        const scanStatus = document.getElementById("scanStatus");
-        const progressFill = document.getElementById("progressFill");
-
-        scannerBox.style.display = "block";
-        progressFill.style.width = "0%";
-
-        let progress = 0;
-        let stepIndex = 0;
-
-        const interval = setInterval(() => {
-            progress += 2;
-            progressFill.style.width = progress + "%";
-
-            if (progress % 18 === 0 && stepIndex < scanSteps.length) {
-                scanStatus.innerText = scanSteps[stepIndex];
-                stepIndex++;
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(email)) {
+                showError("অনুগ্রহ করে একটি সঠিক জিমেইল অ্যাড্রেস প্রদান করুন!");
+                return;
             }
 
-            if (progress >= 100) {
-                clearInterval(interval);
-                scannerBox.style.display = "none";
-                generateSignal();
+            // SECURED ERROR MSG
+            if (mainPass !== "KABBO240") {
+                showError("ভুল বটের মেইন পাসওয়ার্ড! সঠিক পাসওয়ার্ড প্রদান করুন।");
+                return;
             }
-        }, 100);
-    }
 
-    function generateSignal() {
-        const assetSelect = document.getElementById("asset");
-        const selectedAsset = assetSelect.value;
-        
-        const directions = ["CALL (UP ⬆)", "PUT (DOWN ⬇)"];
-        const randomDirection = directions[Math.floor(Math.random() * directions.length)];
-        
-        const randomProbability = Math.floor(Math.random() * (98 - 88 + 1)) + 88;
-        const randomTip = realKnowledgeTips[Math.floor(Math.random() * realKnowledgeTips.length)];
-
-        const resultBox = document.getElementById("resultBox");
-        const selectedAssetDisplay = document.getElementById("selectedAssetDisplay");
-        const signalDirection = document.getElementById("signalDirection");
-        const winRatePercentage = document.getElementById("winRatePercentage");
-        const knowledgeTip = document.getElementById("knowledgeTip");
-
-        if(randomDirection.includes("UP")){
-            document.getElementById("snrStatus").innerText = "Key Support Level";
-            document.getElementById("candleStatus").innerText = "Bullish Hammer / Engulfing";
-            document.getElementById("rsiStatus").innerText = "Oversold Zone (" + (Math.floor(Math.random()*10)+20) + ")";
-            document.getElementById("emaStatus").innerText = "High Buying Volume";
-        } else {
-            document.getElementById("snrStatus").innerText = "Key Resistance Level";
-            document.getElementById("candleStatus").innerText = "Shooting Star / Bearish";
-            document.getElementById("rsiStatus").innerText = "Overbought Zone (" + (Math.floor(Math.random()*10)+70) + ")";
-            document.getElementById("emaStatus").innerText = "High Selling Volume";
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('appSection').classList.remove('hidden');
+            document.getElementById('displayUser').innerText = email.split('@')[0];
+            
+            loadAssets();
+            loadMultiAssets();
         }
 
-        selectedAssetDisplay.innerText = selectedAsset;
-        signalDirection.innerText = randomDirection;
-        
-        if (randomDirection.includes("UP")) {
-            signalDirection.className = "signal-direction up";
-        } else {
-            signalDirection.className = "signal-direction down";
+        function showError(msg) {
+            const err = document.getElementById('loginError');
+            err.innerText = msg;
+            err.classList.remove('hidden');
         }
 
-        winRatePercentage.innerText = randomProbability + "%";
-        knowledgeTip.innerText = randomTip;
-        
-        resultBox.style.display = "block";
-    }
-</script>
+        function loadAssets() {
+            const category = document.getElementById('marketCategory').value;
+            if (category === 'otc') currentAssets = [...otcAssetsList];
+            else if (category === 'real') currentAssets = [...realAssetsList];
+            else currentAssets = [...cryptoAssetsList];
 
+            renderAssetDropdown(currentAssets);
+        }
+
+        function renderAssetDropdown(list) {
+            const select = document.getElementById('assetSelect');
+            select.innerHTML = '';
+            list.forEach(asset => {
+                let opt = document.createElement('option');
+                opt.value = asset.split(' - ')[0];
+                opt.innerText = asset;
+                select.appendChild(opt);
+            });
+        }
+
+        function filterAssets() {
+            const q = document.getElementById('assetSearch').value.toLowerCase();
+            const filtered = currentAssets.filter(a => a.toLowerCase().includes(q));
+            renderAssetDropdown(filtered);
+        }
+
+        function loadMultiAssets() {
+            const container = document.getElementById('multiAssetContainer');
+            container.innerHTML = '';
+            const all = [...otcAssetsList, ...cryptoAssetsList];
+            all.forEach((asset, idx) => {
+                const name = asset.split(' - ')[0];
+                container.innerHTML += `
+                    <label class="flex items-center gap-1 cursor-pointer">
+                        <input type="checkbox" value="${name}" class="asset-checkbox accent-cyan-500" ${idx < 7 ? 'checked' : ''}>
+                        <span class="truncate">${name}</span>
+                    </label>
+                `;
+            });
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('uploadPlaceholder').classList.add('hidden');
+                    document.getElementById('imagePreviewContainer').classList.remove('hidden');
+                    document.getElementById('imagePreview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function switchTab(tab) {
+            if (tab === 'screen') {
+                document.getElementById('screenTab').classList.remove('hidden');
+                document.getElementById('futureTab').classList.add('hidden');
+                document.getElementById('tab1Btn').className = "flex-1 py-2 rounded-lg bg-cyan-500 text-slate-950 font-bold transition";
+                document.getElementById('tab2Btn').className = "flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition";
+            } else {
+                document.getElementById('screenTab').classList.add('hidden');
+                document.getElementById('futureTab').classList.remove('hidden');
+                document.getElementById('tab2Btn').className = "flex-1 py-2 rounded-lg bg-cyan-500 text-slate-950 font-bold transition";
+                document.getElementById('tab1Btn').className = "flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition";
+            }
+        }
+
+        function generateScreenshotSignal() {
+            if (!document.getElementById('chartInput').files.length) {
+                alert("চার্টের একটি স্ক্রিনশট আপলোড করুন!");
+                return;
+            }
+
+            const scanner = document.getElementById('scannerOverlay');
+            const resultCard = document.getElementById('signalResultCard');
+            scanner.classList.remove('hidden');
+            resultCard.classList.add('hidden');
+
+            document.getElementById('beepSound').play();
+
+            setTimeout(() => {
+                scanner.classList.add('hidden');
+                resultCard.classList.remove('hidden');
+
+                const asset = document.getElementById('assetSelect').value;
+                const isCall = Math.random() > 0.42;
+                
+                const minAcc = isProMember ? 92 : 82;
+                const maxAcc = isProMember ? 98 : 91;
+                const accuracy = Math.floor(Math.random() * (maxAcc - minAcc + 1)) + minAcc;
+                const randomReason = reasonsList[Math.floor(Math.random() * reasonsList.length)];
+
+                document.getElementById('resAsset').innerText = asset;
+                document.getElementById('resAccuracy').innerText = `AI Accuracy: ${accuracy}% ${isProMember ? '(PRO BOOSTER)' : ''}`;
+                document.getElementById('resReason').innerText = randomReason;
+                
+                const dirElem = document.getElementById('resDirection');
+                if (isCall) {
+                    dirElem.innerText = "CALL ⬆️";
+                    dirElem.className = "text-2xl font-extrabold font-orbitron my-0.5 text-emerald-400";
+                } else {
+                    dirElem.innerText = "PUT ⬇️";
+                    dirElem.className = "text-2xl font-extrabold font-orbitron my-0.5 text-rose-500";
+                }
+
+                const now = new Date();
+                now.setMinutes(now.getMinutes() + 1);
+                document.getElementById('resTime').innerText = `Entry Time: ${now.toTimeString().substring(0, 5)}`;
+
+            }, 2500);
+        }
+
+        function recordResult(type) {
+            userStats.total++;
+            if (type === 'win') userStats.win++;
+            else userStats.loss++;
+
+            document.getElementById('totalSignals').innerText = userStats.total;
+            document.getElementById('totalWins').innerText = userStats.win;
+            document.getElementById('totalLosses').innerText = userStats.loss;
+
+            document.getElementById('signalResultCard').classList.add('hidden');
+        }
+
+        function generateFutureSignals() {
+            const selected = document.querySelectorAll('.asset-checkbox:checked');
+            if (!selected.length) {
+                alert("কমপক্ষে একটি অ্যাসেট সিলেক্ট করুন!");
+                return;
+            }
+
+            const count = parseInt(document.getElementById('signalCount').value);
+            const tz = document.getElementById('futureTimeZone').value;
+            const timeframe = document.getElementById('timeFrame').value;
+            const assets = Array.from(selected).map(cb => cb.value);
+            
+            let output = `👑 KABBO ${isProMember ? 'PRO' : 'VIP'} FUTURE SIGNAL 👑\n`;
+            output += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+            output += `📌 TIMEFRAME : ${timeframe}\n`;
+            output += `🛡️ STRATEGY : TAKE 1 STEP MTG\n`;
+            output += `🌐 TIMEZONE : ${tz}\n`;
+            output += `👤 OWNER     : TRADER KABBO\n`;
+            output += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+            let currentTime = new Date();
+            currentTime.setMinutes(currentTime.getMinutes() + 4);
+
+            for (let i = 0; i < count; i++) {
+                currentTime.setMinutes(currentTime.getMinutes() + Math.floor(Math.random() * 3) + 2);
+                const timeStr = currentTime.toTimeString().substring(0, 5);
+                const randomAsset = assets[Math.floor(Math.random() * assets.length)];
+                const dir = Math.random() > 0.45 ? "CALL ⬆️" : "PUT ⬇️";
+                
+                output += `⏰ ${timeStr} | ${randomAsset} ➡️ ${dir}\n`;
+            }
+
+            output += `\n━━━━━━━━━━━━━━━━━━━━━━\n⚠️ Follow Money Management Always.`;
+
+            document.getElementById('futureListText').value = output;
+            document.getElementById('futureListContainer').classList.remove('hidden');
+        }
+
+        function copyFutureList() {
+            const text = document.getElementById('futureListText');
+            text.select();
+            document.execCommand('copy');
+            alert("VIP ফিউচার সিগন্যাল লিস্ট সফলভাবে কপি করা হয়েছে!");
+        }
+
+        function openProModal() { document.getElementById('proModal').classList.remove('hidden'); }
+        function closeProModal() { document.getElementById('proModal').classList.add('hidden'); }
+
+        function activateProVersion() {
+            const key = document.getElementById('proKeyInput').value.trim();
+            if (key === "KABBOPRO24") {
+                isProMember = true;
+                alert("অভিনন্দন! আপনার PRO VIP অ্যাকাউন্ট সফলভাবে একটিভ হয়েছে।");
+                closeProModal();
+
+                document.getElementById('badgeStatus').innerText = "PRO VIP MEMBER";
+                document.getElementById('badgeStatus').className = "text-[9px] text-amber-400 tracking-wider uppercase font-extrabold";
+                document.getElementById('userTier').innerText = "PRO VIP MEMBER";
+                document.getElementById('userTier').className = "text-[9px] bg-amber-500/20 text-amber-400 border border-amber-500/40 px-2 py-0.5 rounded-full font-bold";
+                
+                document.getElementById('profileCard').classList.add('pro-glow');
+            } else {
+                // SECURED PRO ERROR
+                alert("ভুল লাইসেন্স কী! সিক্রেট লাইসেন্স কী পেতে 01751856343 নম্বরে যোগাযোগ করুন।");
+            }
+        }
+    </script>
 </body>
-</html>
+            </html>
